@@ -1,6 +1,7 @@
 use std::fmt::Display;
 
 mod d1;
+mod d2;
 
 #[derive(Debug)]
 struct BadArgument(usize);
@@ -13,7 +14,7 @@ impl std::error::Error for BadArgument {}
 
 // TODO: Gracefully prompt day/variant
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let exercises = [[d1::run_1, d1::run_2]];
+    let exercises = [vec![d1::run_1, d1::run_2], vec![d2::run_1]];
 
     let mut args = std::env::args().skip(1);
     let arg = args.next().unwrap();
