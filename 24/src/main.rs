@@ -14,7 +14,7 @@ impl std::error::Error for BadArgument {}
 
 // TODO: Gracefully prompt day/variant
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let exercises = [vec![d1::run_1, d1::run_2], vec![d2::run_1]];
+    let exercises = [vec![d1::run_1, d1::run_2], vec![d2::run_1, d2::run_2]];
 
     let mut args = std::env::args().skip(1);
     let arg = args.next().unwrap();
