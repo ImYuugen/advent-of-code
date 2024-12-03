@@ -26,6 +26,7 @@
       devShells.${system}.default = pkgs.mkShell rec {
         buildInputs = with pkgs; [
           rustacean.packages.${system}.codelldb
+          lldb_19
           rust-analyzer
           rust-bin.stable.latest.default
         ];
