@@ -59,8 +59,8 @@ pub fn run_2(input: String) -> i32 {
             }
             offset += 1;
         }
-        while offset < input.len() && !input[offset..].starts_with("do()") {
-            offset += 1;
+        if let Some(i) = input[offset..].find("do()") {
+            offset += i + 4;
         }
     }
     res
