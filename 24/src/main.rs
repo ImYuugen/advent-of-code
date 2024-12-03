@@ -18,7 +18,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let exercises = [
         vec![d1::run_1, d1::run_2],
         vec![d2::run_1, d2::run_2],
-        vec![d3::run_1],
+        vec![d3::run_1, d3::run_2],
     ];
 
     let mut args = std::env::args().skip(1);

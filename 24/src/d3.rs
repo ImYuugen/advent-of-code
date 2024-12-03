@@ -29,3 +29,39 @@ pub fn run_1(input: String) -> i32 {
         acc + n1 * n2
     })
 }
+
+pub fn run_2(input: String) -> i32 {
+    let input = input.as_str();
+    let mut res = 0;
+    let mut offset = 0;
+    'toplevel: while offset < input.len() {
+        while offset < input.len() && !input[offset..].starts_with("don't()") {
+            if input[offset..].starts_with("mul(") {
+                offset += 4;
+                let Some(mut next_non_num) = input[offset..].find(|c: char| !c.is_numeric()) else {
+                    // End of string
+                    break 'toplevel;
+                };
+                next_non_num += offset;
+                if let Ok(n1) = input[offset..next_non_num].parse::<i32>() {
+                    offset = next_non_num + 1;
+                    let Some(mut next_non_num) = input[offset..].find(|c: char| !c.is_numeric())
+                    else {
+                        // End of string
+                        break 'toplevel;
+                    };
+                    next_non_num += offset;
+                    // I hate this
+                    if input[next_non_num..(next_non_num + 1)].eq(")") {
+                        res += n1 * input[offset..next_non_num].parse::<i32>().unwrap_or(0);
+                    }
+                }
+            }
+            offset += 1;
+        }
+        while offset < input.len() && !input[offset..].starts_with("do()") {
+            offset += 1;
+        }
+    }
+    res
+}
