@@ -36,17 +36,44 @@ pub fn run_1(input: String) -> i32 {
         .map(|s| s.chars().collect::<Vec<char>>())
         .filter(|v| !v.is_empty())
         .collect();
-    let mut res = 0;
-    for (i, v) in input.iter().enumerate() {
-        for (j, &c) in v.iter().enumerate() {
-            if c == 'X' {
-                res += seek_xmas(&input, i, j);
-            }
-        }
+    input.iter().enumerate().fold(0, |acc, (i, v)| {
+        acc + v.iter().enumerate().fold(0, |acc, (j, &c)| {
+            acc + if c == 'X' { seek_xmas(&input, i, j) } else { 0 }
+        })
+    })
+}
+
+fn seek_cross_mas(input: &[Vec<char>], i: usize, j: usize) -> i32 {
+    // Cannot be bordering
+    if i == 0 || j == 0 || i == input.len() - 1 || j == input[0].len() - 1 {
+        return 0;
     }
-    res
+    let expected = match (input[i + 1][j + 1], input[i + 1][j - 1]) {
+        ('S', 'S') => [(i - 1, j - 1, 'M'), (i - 1, j + 1, 'M')],
+        ('S', 'M') => [(i - 1, j - 1, 'M'), (i - 1, j + 1, 'S')],
+        ('M', 'S') => [(i - 1, j - 1, 'S'), (i - 1, j + 1, 'M')],
+        ('M', 'M') => [(i - 1, j - 1, 'S'), (i - 1, j + 1, 'S')],
+        _ => return 0,
+    };
+    expected
+        .into_iter()
+        .all(|(i_ex, j_ex, char_ex)| input[i_ex][j_ex] == char_ex)
+        .into()
 }
 
 pub fn run_2(input: String) -> i32 {
-    0
+    let input: Vec<Vec<char>> = input
+        .split("\n")
+        .map(|s| s.chars().collect::<Vec<char>>())
+        .filter(|v| !v.is_empty())
+        .collect();
+    input.iter().enumerate().fold(0, |acc, (i, v)| {
+        acc + v.iter().enumerate().fold(0, |acc, (j, &c)| {
+            acc + if c == 'A' {
+                seek_cross_mas(&input, i, j)
+            } else {
+                0
+            }
+        })
+    })
 }
