@@ -3,6 +3,7 @@ use std::fmt::Display;
 mod d1;
 mod d2;
 mod d3;
+mod d4;
 
 #[derive(Debug)]
 struct BadArgument(usize);
@@ -19,6 +20,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         vec![d1::run_1, d1::run_2],
         vec![d2::run_1, d2::run_2],
         vec![d3::run_1, d3::run_2],
+        vec![d4::run_1, d4::run_2],
     ];
 
     let mut args = std::env::args().skip(1);
